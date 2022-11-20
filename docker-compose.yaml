@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  binotify-premium-app:
+    build: ./
+    container_name: app_c
+    ports:
+      - '5173:5173'
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
