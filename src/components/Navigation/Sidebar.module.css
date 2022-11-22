@@ -1,0 +1,15 @@
+.aside {
+  width: 20rem;
+  height: 100vh;
+  background: var(--black);
+  position: sticky;
+  top: 0;
+  padding: 2rem;
+}
+
+.links {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

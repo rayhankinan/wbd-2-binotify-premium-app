@@ -1,0 +1,20 @@
+.sidebarLink {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  transition: all 0.3s linear;
+}
+
+.sidebarLink:hover {
+  padding-left: 1rem;
+}
+
+.sidebarLink p {
+  color: var(--white);
+}
+
+.sidebarLink svg {
+  width: 1rem;
+  height: 1rem;
+}
