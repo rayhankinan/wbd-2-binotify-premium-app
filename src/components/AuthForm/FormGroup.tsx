@@ -1,20 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from './FormGroup.module.css';
 
-const FormGroup = ({ id, type, label, placeholder, validationFunction, errorText } : { id: string, type: string, label: string, placeholder: string, validationFunction: (input: string) => boolean, errorText: string}) => {
-    const [input, setInput] = useState<string>("");
-    const [isValid, setIsValid] = useState<boolean>(true);
-
-    useEffect(() => {
-        setIsValid(validationFunction(input));
-    }, [input]);
-
+const FormGroup = ({ id, type, label, placeholder, value, status, errorText } : { id: string, type: string, label: string, placeholder: string, value: (string | React.Dispatch<React.SetStateAction<string>>)[], status: boolean, errorText: string}) => {
     return <div className={styles.formGroup}>
         <label htmlFor={id}>{label}</label>
-        <input type={type} id={id} name={id} placeholder={placeholder} value={input} onChange={e => {
-            setInput(e.currentTarget.value)
+        <input type={type} id={id} name={id} placeholder={placeholder} value={value[0] as string} onChange={e => {
+            (value[1] as React.Dispatch<React.SetStateAction<string>>)(e.currentTarget.value)
         }} />
-        {!isValid && <p className={styles.validation}>{errorText}</p>}
+        {!status && <p className={styles.validation}>{errorText}</p>}
     </div>
 };
 
