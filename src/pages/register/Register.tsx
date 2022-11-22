@@ -86,7 +86,7 @@ const Register = () => {
             status={isConfirmationValid}
             errorText="Confirmation password is different than password!"
           />
-          <FormButton text="Register" onClickFunction={onRegister} />
+          <FormButton text="Register" onClickFunction={onRegister} disabled={!isUsernameValid || !isConfirmationValid || !isPasswordValid || !isConfirmationValid}/>
         </form>
       </>
     </AuthWrapper> 
