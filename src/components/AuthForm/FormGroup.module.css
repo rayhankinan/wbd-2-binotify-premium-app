@@ -1,0 +1,13 @@
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.formGroup input {
+    padding: 0.5rem 1rem;
+}
+
+.validation {
+    color: var(--red);
+}
