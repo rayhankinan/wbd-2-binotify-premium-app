@@ -3,6 +3,9 @@
 }
 
 .mainContent {
-  padding: 4rem;
   width: 100%;
+}
+
+.mainContent main {
+  padding: 2rem;
 }

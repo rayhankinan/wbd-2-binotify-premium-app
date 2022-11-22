@@ -1,0 +1,66 @@
+.nav {
+  position: sticky;
+  top: 0;
+}
+
+.topSection {
+  padding: 2rem;
+  background: var(--black);
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav img {
+  height: 3rem;
+}
+
+.nav button {
+  width: 3rem;
+  height: 3rem;
+  background: none;
+  transition: all 0.3s linear;
+}
+
+.nav button.toggled {
+  transform: rotate(90deg);
+}
+
+.navLinksContainer {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s linear;
+}
+
+.navLinks {
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+}
+
+.navLink {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  transition: all 0.3s linear;
+  padding: 2rem 2rem;
+}
+
+.navLink:hover {
+  padding-left: 1rem;
+}
+
+.navLink svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.navLink p {
+  color: var(--white);
+}
+
+@media (min-width: 1080px) {
+  .nav {
+    display: none;
+  }
+}

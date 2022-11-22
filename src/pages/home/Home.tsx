@@ -1,14 +1,15 @@
 import { ReactNode } from "react";
 import Sidebar from "../../components/Navigation/Sidebar";
+import Navbar from "../../components/Navigation/Navbar";
 import styles from "./Home.module.css";
 
-interface ISidebarLink {
+interface ILink {
   icon: ReactNode;
   text: string;
   url: string;
 }
 
-const singerSidebar: ISidebarLink[] = [
+const singerLinks: ILink[] = [
   {
     icon: (
       <>
@@ -85,9 +86,12 @@ const Home = () => {
   return (
     <>
       <div className={styles.mainWrapper}>
-        <Sidebar sidebarLinks={singerSidebar} />
+        <Sidebar sidebarLinks={singerLinks} />
         <div className={styles.mainContent}>
-          <h1>Hello World!</h1>
+          <Navbar navbarLinks={singerLinks} />
+          <main>
+            <h1>Hello World!</h1>
+          </main>
         </div>
       </div>
     </>
