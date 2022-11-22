@@ -1,0 +1,5 @@
+.formButton {
+    padding: 0.5rem 1rem;
+    background: var(--darkgreen);
+    color: var(--white);
+}
