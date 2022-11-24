@@ -56,7 +56,7 @@ const Login = () => {
             errorText="Password cannot be empty!"
           />
           <FormButton
-            text="Register"
+            text="Login"
             onClickFunction={onLogin}
             disabled={!isUsernameValid || !isPasswordValid}
           />

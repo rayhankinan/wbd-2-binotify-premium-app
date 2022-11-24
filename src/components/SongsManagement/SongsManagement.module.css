@@ -1,0 +1,100 @@
+.songsManagementContainer header p {
+    margin-top: 0.5rem;
+}
+
+.songsTable {
+    margin-top: 2rem;
+}
+
+.songsTable table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.songsTable th {
+    border-bottom: 1px solid var(--black);
+}
+
+.songsTable td, .songsTable th {
+    text-align: left;
+    padding: 1rem 1rem;
+    margin: 0;
+}
+
+.songsTable td:nth-child(1) {
+    width: 5%;
+}
+
+.songsTable td:nth-child(2) {
+    width: 40%;
+}
+
+.songsTable td:nth-child(2) input {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.songsTable td:nth-child(3) {
+    width: 20%;
+}
+
+.songsTable td:nth-child(4) {
+    display: flex;
+    gap: 1rem;
+    width: 25%;
+}
+
+.songsTable button, .songsTable button:focus {
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 1px solid black;
+    font-size: 1rem;
+    transition: all 0.3s linear;
+}
+
+.songsTable button:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+.songsTable .songRow {
+    transition: all 0.3s linear;
+}
+
+.songsTable .songRow:hover {
+    background: rgba(0, 0, 0, 10%);
+}
+
+.newSongContainer {
+    margin-top: 1rem;
+}
+
+.newSongContainer button {
+    background: var(--darkgreen);
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    color: white;
+    transition: all 0.3s linear;
+}
+
+.newSongContainer button:hover {
+    opacity: 0.8;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.pagination button {
+    width: 2rem;
+    height: 2rem;
+    transition: all 0.3s linear;
+}
+
+.pagination button:hover {
+    transform: scale(1.2);
+}
