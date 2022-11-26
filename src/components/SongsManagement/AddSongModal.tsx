@@ -55,7 +55,11 @@ const AddSongModal = ({
         progress: undefined,
         theme: "light",
       });
-      fetchSongs();
+      await fetchSongs();
+
+      // Empty input
+      titleRef.current!.value = "";
+      fileRef.current!.value = "";
     } else {
       const data = await response.json();
       toast.error(data.message, {
