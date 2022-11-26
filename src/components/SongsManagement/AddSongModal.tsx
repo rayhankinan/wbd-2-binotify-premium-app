@@ -76,6 +76,7 @@ const AddSongModal = ({
             id="file"
             ref={fileRef}
             onChange={() => refreshButton()}
+            accept=".mp3"
           />
           <div className={styles.formButtons}>
             <button onClick={() => setIsModalOpen(false)} disabled={disabled}>
