@@ -5,7 +5,8 @@ import { ReactNode, useRef, useState, useEffect } from "react";
 interface INavbarLink {
   icon: ReactNode;
   text: string;
-  url: string;
+  url?: string;
+  action?: () => void;
 }
 
 const Navbar = ({ navbarLinks } : { navbarLinks: INavbarLink[] }) => {
@@ -36,11 +37,18 @@ const Navbar = ({ navbarLinks } : { navbarLinks: INavbarLink[] }) => {
       </div>
       <div className={styles.navLinksContainer} ref={navLinksContainerRef}>
         <div className={styles.navLinks} ref={navLinksRef}>
-          {navbarLinks.map(({icon, text, url}) => {
-            return <a href={url} className={styles.navLink}>
-              {icon}  
-              <p>{text}</p>
-            </a>
+          {navbarLinks.map(({icon, text, url, action}) => {
+            if (url) {
+              return <a href={url} className={styles.navLink}>
+                {icon}  
+                <p>{text}</p>
+              </a>
+            } else {
+              return <a className={styles.navLink} onClick={() => action!()}>
+                {icon}  
+                <p>{text}</p>
+              </a>
+            }
           })}
         </div>
       </div>

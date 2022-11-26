@@ -8,6 +8,7 @@
 
 .sidebarLink:hover {
   padding-left: 1rem;
+  cursor: pointer;
 }
 
 .sidebarLink p {

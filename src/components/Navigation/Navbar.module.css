@@ -44,6 +44,7 @@
   align-items: center;
   transition: all 0.3s linear;
   padding: 2rem 2rem;
+  cursor: pointer;
 }
 
 .navLink:hover {
