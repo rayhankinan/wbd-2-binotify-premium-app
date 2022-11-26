@@ -39,12 +39,12 @@ const Navbar = ({ navbarLinks } : { navbarLinks: INavbarLink[] }) => {
         <div className={styles.navLinks} ref={navLinksRef}>
           {navbarLinks.map(({icon, text, url, action}) => {
             if (url) {
-              return <a href={url} className={styles.navLink}>
+              return <a href={url} className={styles.navLink} key={text}>
                 {icon}  
                 <p>{text}</p>
               </a>
             } else {
-              return <a className={styles.navLink} onClick={() => action!()}>
+              return <a className={styles.navLink} onClick={() => action!()} key={text}>
                 {icon}  
                 <p>{text}</p>
               </a>

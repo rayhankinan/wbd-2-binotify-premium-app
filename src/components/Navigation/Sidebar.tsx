@@ -16,7 +16,7 @@ const Sidebar = ({ sidebarLinks }: { sidebarLinks: ISidebarLink[] }) => {
       <img src={Logo} alt="Binotify logo" />
       <div className={styles.links}>
         {sidebarLinks.map(({icon, text, url, action}) => {
-          return <SidebarLink key={url} icon={icon} text={text} url={url} action={action} />
+          return <SidebarLink key={text} icon={icon} text={text} url={url} action={action} />
         })}
       </div>
     </aside>

@@ -7,9 +7,11 @@ import { REST_BASE_URL } from "../../constants/constants";
 const AddSongModal = ({
   isModalOpen,
   setIsModalOpen,
+  fetchSongs,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchSongs: () => Promise<void>;
 }) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
@@ -40,6 +42,8 @@ const AddSongModal = ({
       },
       body: data,
     });
+
+    fetchSongs();
   };
 
   return (
@@ -58,7 +62,7 @@ const AddSongModal = ({
         <form
           className={styles.addSongForm}
           onSubmit={(e) => {
-            onSubmit(e)
+            onSubmit(e);
           }}
         >
           <div className={styles.formGroup}>
@@ -79,10 +83,21 @@ const AddSongModal = ({
             accept=".mp3"
           />
           <div className={styles.formButtons}>
-            <button onClick={() => setIsModalOpen(false)} disabled={disabled}>
+            <button
+              type="submit"
+              onClick={() => setIsModalOpen(false)}
+              disabled={disabled}
+            >
               Add song
             </button>
-            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+            <button
+              onClick={(e: React.SyntheticEvent) => {
+                e.preventDefault();
+                setIsModalOpen(false);
+              }}
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>
