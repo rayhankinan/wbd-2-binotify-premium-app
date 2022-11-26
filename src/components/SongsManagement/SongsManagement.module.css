@@ -44,17 +44,19 @@
     display: flex;
     gap: 1rem;
     width: 25%;
+    align-items: center;
 }
 
-.songsTable button, .songsTable button:focus {
+.songsTable button, .songsTable button:focus, .songsTable label {
     padding: 0.5rem 1rem;
     background: none;
     border: 1px solid black;
     font-size: 1rem;
     transition: all 0.3s linear;
+    cursor: pointer;
 }
 
-.songsTable button:hover {
+.songsTable button:hover, .songsTable label:hover {
     background: var(--black);
     color: var(--white);
 }
@@ -65,6 +67,10 @@
 
 .songsTable .songRow:hover {
     background: rgba(0, 0, 0, 10%);
+}
+
+.songsTable input[type="file"] {
+    display: none;
 }
 
 .newSongContainer {

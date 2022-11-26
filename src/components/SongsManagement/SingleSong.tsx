@@ -1,10 +1,10 @@
 import styles from "./SongsManagement.module.css";
 import { formatSeconds } from "../../utils/formatSeconds";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 
-import { REST_BASE_URL } from "../../constants/constants"
+import { REST_BASE_URL } from "../../constants/constants";
 
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
 interface ISong {
   index: number;
@@ -18,14 +18,15 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [songTitle, setSongTitle] = useState<string>(title);
 
+  const fileRef = useRef<HTMLInputElement>(null);
+
   const onDelete = async () => {
-    const response = await fetch(`${REST_BASE_URL}/song/${id}`,
-    {
+    const response = await fetch(`${REST_BASE_URL}/song/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": localStorage.getItem("token") ?? ""
-      }
-    })
+        Authorization: localStorage.getItem("token") ?? "",
+      },
+    });
 
     if (response.ok) {
       toast.success("Song successfully deleted!", {
@@ -52,6 +53,52 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
         theme: "light",
       });
     }
+  };
+
+  const onSave = async () => {
+    if (fileRef.current!.files!.length === 0) {
+      // Update title saja
+      const response = await fetch(`${REST_BASE_URL}/song/title/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: songTitle
+        }),
+        headers: {
+          "Authorization": localStorage.getItem("token") ?? "",
+          "Content-Type": "application/json"
+        }
+      })
+
+      if (response.ok) {
+        toast.success("Title successfully updated!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        await fetchSongs();
+      } else {
+        const data = await response.json();
+        toast.error(data.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else {
+      // Update bersama file
+    }
+
+    setIsEditing(false);
   }
 
   return (
@@ -84,8 +131,12 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
         )}
         {isEditing && (
           <>
-            <button>Upload</button>
-            <button onClick={() => setIsEditing(false)}>Save</button>
+            <form>
+              <label htmlFor="song">Upload</label>
+              <input type="file" name="song" id="song" ref={fileRef}/>
+            </form>
+            <button onClick={() => onSave()} disabled={songTitle === ""}>Save</button>
+            <p>No file selected</p>
           </>
         )}
       </td>
