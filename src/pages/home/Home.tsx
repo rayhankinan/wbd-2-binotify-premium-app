@@ -1,8 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Sidebar from "../../components/Navigation/Sidebar";
 import Navbar from "../../components/Navigation/Navbar";
 import styles from "./Home.module.css";
-import SongsManagement from "../../components/SongsManagement/SongsManagement"
+import SongsManagement from "../../components/SongsManagement/SongsManagement";
+
+import { REST_BASE_URL } from "../../constants/constants";
+
+import { useNavigate } from "react-router-dom"
 
 interface ILink {
   icon: ReactNode;
@@ -15,7 +19,10 @@ const singerLinks: ILink[] = [
     icon: (
       <>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <path fill="#ffffff" d="M499.1 6.3c8.1 6 12.9 15.6 12.9 25.7v72V368c0 44.2-43 80-96 80s-96-35.8-96-80s43-80 96-80c11.2 0 22 1.6 32 4.6V147L192 223.8V432c0 44.2-43 80-96 80s-96-35.8-96-80s43-80 96-80c11.2 0 22 1.6 32 4.6V200 128c0-14.1 9.3-26.6 22.8-30.7l320-96c9.7-2.9 20.2-1.1 28.3 5z" />
+          <path
+            fill="#ffffff"
+            d="M499.1 6.3c8.1 6 12.9 15.6 12.9 25.7v72V368c0 44.2-43 80-96 80s-96-35.8-96-80s43-80 96-80c11.2 0 22 1.6 32 4.6V147L192 223.8V432c0 44.2-43 80-96 80s-96-35.8-96-80s43-80 96-80c11.2 0 22 1.6 32 4.6V200 128c0-14.1 9.3-26.6 22.8-30.7l320-96c9.7-2.9 20.2-1.1 28.3 5z"
+          />
         </svg>
       </>
     ),
@@ -39,19 +46,52 @@ const singerLinks: ILink[] = [
 ];
 
 const Home = () => {
-  return (
-    <>
-      <div className={styles.mainWrapper}>
-        <Sidebar sidebarLinks={singerLinks} />
-        <div className={styles.mainContent}>
-          <Navbar navbarLinks={singerLinks} />
-          <main>
-            <SongsManagement />
-          </main>
+  const [userID, setUserID] = useState<number>(-1);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const checkAuth = async () => {
+    const response = await fetch(`${REST_BASE_URL}/user/check`,
+    {
+      headers: {
+        "Authorization": localStorage.getItem("token") ?? ""
+      }
+    });
+
+    if (!response.ok) {
+      // Token tidak valid
+      navigate("/login");
+    } else {
+      const data = await response.json();
+      setIsAdmin(data.isAdmin);
+      setUserID(data.userID);
+    }
+  };
+
+  // Check for token
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  if (!isAdmin) {
+    // TODO: Pass user ID ke dalam SongsManagement
+    return (
+      <>
+        <div className={styles.mainWrapper}>
+          <Sidebar sidebarLinks={singerLinks} />
+          <div className={styles.mainContent}>
+            <Navbar navbarLinks={singerLinks} />
+            <main>
+              <SongsManagement />
+            </main>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    // TODO: Return page admin @Aira
+  }
 };
 
 export default Home;
