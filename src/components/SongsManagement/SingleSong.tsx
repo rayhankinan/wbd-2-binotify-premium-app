@@ -17,6 +17,7 @@ interface ISong {
 const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [songTitle, setSongTitle] = useState<string>(title);
+  const [fileName, setFileName] = useState<string>("");
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -56,21 +57,21 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
   };
 
   const onSave = async () => {
-    if (fileRef.current!.files!.length === 0) {
+    if (fileName === "") {
       // Update title saja
       const response = await fetch(`${REST_BASE_URL}/song/title/${id}`, {
         method: "PUT",
         body: JSON.stringify({
-          title: songTitle
+          title: songTitle,
         }),
         headers: {
-          "Authorization": localStorage.getItem("token") ?? "",
-          "Content-Type": "application/json"
-        }
-      })
+          Authorization: localStorage.getItem("token") ?? "",
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.ok) {
-        toast.success("Title successfully updated!", {
+        toast.success("Song successfully updated!", {
           position: "top-center",
           autoClose: 1500,
           hideProgressBar: false,
@@ -96,10 +97,58 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
       }
     } else {
       // Update bersama file
+      let data = new FormData();
+      data.append("file", fileRef.current!.files![0]);
+      data.append("title", songTitle);
+
+      const response = await fetch(`${REST_BASE_URL}/song/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: localStorage.getItem("token") ?? "",
+        },
+        body: data,
+      });
+
+      if (response.ok) {
+        toast.success("Song successfully updated!", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        await fetchSongs();
+
+        fileRef.current!.value = "";
+        setFileName("");
+      } else {
+        const data = await response.json();
+        toast.error(data.message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
 
     setIsEditing(false);
-  }
+  };
+
+  const onFileChange = () => {
+    if (fileRef.current!.files!.length == 0) {
+      setFileName("");
+    } else {
+      setFileName(fileRef.current!.files![0].name);
+    }
+  };
 
   return (
     <tr className={styles.songRow}>
@@ -133,10 +182,25 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
           <>
             <form>
               <label htmlFor="song">Upload</label>
-              <input type="file" name="song" id="song" ref={fileRef}/>
+              <input
+                type="file"
+                name="song"
+                id="song"
+                ref={fileRef}
+                onChange={() => {
+                  onFileChange();
+                }}
+                accept=".mp3"
+              />
             </form>
-            <button onClick={() => onSave()} disabled={songTitle === ""}>Save</button>
-            <p>No file selected</p>
+            <button onClick={() => onSave()} disabled={songTitle === ""}>
+              Save
+            </button>
+            <p>
+              {fileName === ""
+                ? "No file selected"
+                : `${fileName.substring(0, 10) + "..."}`}
+            </p>
           </>
         )}
       </td>
