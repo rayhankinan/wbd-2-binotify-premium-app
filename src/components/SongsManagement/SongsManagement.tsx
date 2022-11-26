@@ -7,39 +7,14 @@ import { useEffect, useState } from "react";
 
 import { REST_BASE_URL } from "../../constants/constants";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface ISong {
   id: number;
   title: string;
   duration: number;
 }
-
-const dummySongs: ISong[] = [
-  {
-    id: 1,
-    title: "Fukashigi no Carte",
-    duration: 300,
-  },
-  {
-    id: 2,
-    title: "Chiisana Koi no Uta",
-    duration: 250,
-  },
-  {
-    id: 3,
-    title: "Blue Bird",
-    duration: 432,
-  },
-  {
-    id: 4,
-    title: "Connect",
-    duration: 311,
-  },
-  {
-    id: 5,
-    title: "Orange",
-    duration: 200,
-  },
-];
 
 const SongsManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -64,6 +39,7 @@ const SongsManagement = () => {
 
   return (
     <>
+      <ToastContainer />
       <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} fetchSongs={fetchSongs} />
       <div className={styles.songsManagementContainer}>
         <header>
@@ -88,7 +64,9 @@ const SongsManagement = () => {
                       index={idx + 1}
                       title={song.title}
                       duration={song.duration}
+                      id={song.id}
                       key={song.id}
+                      fetchSongs={fetchSongs}
                     />
                   );
                 })}

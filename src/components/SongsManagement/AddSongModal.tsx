@@ -1,6 +1,7 @@
 import styles from "./AddSongModal.module.css";
 
 import React, { useState, useRef } from "react";
+import { toast } from "react-toastify";
 
 import { REST_BASE_URL } from "../../constants/constants";
 
@@ -43,7 +44,31 @@ const AddSongModal = ({
       body: data,
     });
 
-    fetchSongs();
+    if (response.ok) {
+      toast.success("Song successfully added!", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      fetchSongs();
+    } else {
+      const data = await response.json();
+      toast.error(data.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (
