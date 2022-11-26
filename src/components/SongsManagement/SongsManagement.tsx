@@ -3,12 +3,14 @@ import styles from "./SongsManagement.module.css";
 import SingleSong from "./SingleSong";
 import AddSongModal from "./AddSongModal";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { REST_BASE_URL } from "../../constants/constants";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import AudioPlayer from "./AudioPlayer";
 
 interface ISong {
   id: number;
@@ -19,6 +21,8 @@ interface ISong {
 const SongsManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [songs, setSongs] = useState<ISong[]>([]);
+  const [audioPath, setAudioPath] = useState<string>("");
+  const [playingTitle, setPlayingTitle] = useState<string>("");
 
   const fetchSongs = async () => {
     const response = await fetch(`${REST_BASE_URL}/song`, {
@@ -33,12 +37,39 @@ const SongsManagement = () => {
     }
   };
 
+  const playAudio = async (id: number, title: string) => {
+    const response = await fetch(`${REST_BASE_URL}/song/${id}`, {
+      headers: {
+        Authorization: localStorage.getItem("token") ?? "",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.blob();
+      setAudioPath(URL.createObjectURL(data));
+      setPlayingTitle(title);
+    } else {
+      const data = await response.json();
+      toast.error(data.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
   useEffect(() => {
     fetchSongs();
   }, []);
 
   return (
     <>
+      <AudioPlayer audioPath={audioPath} setAudioPath={setAudioPath} title={playingTitle} />
       <ToastContainer />
       <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} fetchSongs={fetchSongs} />
       <div className={styles.songsManagementContainer}>
@@ -67,6 +98,7 @@ const SongsManagement = () => {
                       id={song.id}
                       key={song.id}
                       fetchSongs={fetchSongs}
+                      playAudio={playAudio}
                     />
                   );
                 })}

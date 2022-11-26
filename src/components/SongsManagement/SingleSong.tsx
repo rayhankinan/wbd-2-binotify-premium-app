@@ -1,6 +1,6 @@
 import styles from "./SongsManagement.module.css";
 import { formatSeconds } from "../../utils/formatSeconds";
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 
 import { REST_BASE_URL } from "../../constants/constants";
 
@@ -12,9 +12,10 @@ interface ISong {
   title: string;
   duration: number;
   fetchSongs: () => Promise<void>;
+  playAudio: (id: number, title: string) => Promise<void>;
 }
 
-const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
+const SingleSong = ({ index, id, title, duration, fetchSongs, playAudio }: ISong) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [songTitle, setSongTitle] = useState<string>(title);
   const [fileName, setFileName] = useState<string>("");
@@ -173,7 +174,7 @@ const SingleSong = ({ index, id, title, duration, fetchSongs }: ISong) => {
       <td>
         {!isEditing && (
           <>
-            <button>Play</button>
+            <button onClick={() => playAudio(id, title)}>Play</button>
             <button onClick={() => setIsEditing(true)}>Edit</button>
             <button onClick={() => onDelete()}>Delete</button>
           </>

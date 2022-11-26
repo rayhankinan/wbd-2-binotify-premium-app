@@ -1,0 +1,74 @@
+.audioPlayerContainer {
+  margin-top: 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  padding: 2rem;
+  background: var(--nav-black);
+}
+
+.audioPlayer {
+  width: 100%;
+}
+
+.audio-info {
+  color: var(--white);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.hidePlayer {
+  display: none;
+}
+
+.progressBarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.progressBarContainer p {
+  color: var(--white);
+}
+
+.progressBarContainer input {
+  width: 80%;
+}
+
+.playerButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.buttonPlay, .buttonStop {
+  width: 3rem;
+  height: 3rem;
+  background: var(--white);
+  padding: 1rem;
+  border-radius: 100%;
+  display: grid;
+  place-items: center;
+  transition: all 0.3s linear;
+  cursor: pointer;
+}
+
+.buttonPlay:hover, .buttonStop:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+.buttonPlay svg, .buttonStop svg {
+  width: 100%;
+}
+
+.playingInfo {
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
