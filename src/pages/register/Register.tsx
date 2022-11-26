@@ -75,7 +75,6 @@ const Register = () => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.log(data.message);
       toast.error(data.message, {
         position: "top-center",
         autoClose: 1500,
