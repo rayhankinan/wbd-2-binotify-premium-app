@@ -15,6 +15,10 @@ import { REST_BASE_URL } from "../../constants/constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
+
 const Register = () => {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -28,6 +32,8 @@ const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
   const [isConfirmationValid, setIsConfirmationValid] =
     useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsNameValid(name.length > 0);
@@ -81,7 +87,8 @@ const Register = () => {
         theme: "light",
         });
     } else {
-      // TODO: Save authorization bearer in local storage and login user
+      localStorage.setItem("token", `Bearer ${data.token}`);
+      navigate("/");
     }
   };
 
@@ -150,6 +157,7 @@ const Register = () => {
             }
           />
         </form>
+        <p>Already have an account? <span className={styles.redirect}><Link to="/login">Log in</Link></span>.</p>
       </>
     </AuthWrapper>
   );

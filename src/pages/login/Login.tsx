@@ -7,6 +7,8 @@ import AuthWrapper from "../../components/AuthWrapper/AuthWrapper";
 import FormGroup from "../../components/AuthForm/FormGroup";
 import FormButton from "../../components/AuthForm/FormButton";
 
+import { Link } from "react-router-dom";
+
 const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -61,6 +63,7 @@ const Login = () => {
             disabled={!isUsernameValid || !isPasswordValid}
           />
         </form>
+        <p>Don't have an account yet? <span className={styles.redirect}><Link to="/register">Register</Link></span>.</p>
       </>
     </AuthWrapper>
   );
