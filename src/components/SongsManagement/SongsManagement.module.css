@@ -1,3 +1,7 @@
+.songsManagementContainer {
+    padding-bottom: 11.375rem;
+}
+
 .songsManagementContainer header p {
     margin-top: 0.5rem;
 }
@@ -91,7 +95,9 @@
 
 .pagination {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
     margin-top: 2rem;
 }
 

@@ -5,7 +5,7 @@ import AddSongModal from "./AddSongModal";
 
 import { useEffect, useState, useRef } from "react";
 
-import { REST_BASE_URL } from "../../constants/constants";
+import { REST_BASE_URL, SONGS_PAGE_SIZE } from "../../constants/constants";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,17 +23,42 @@ const SongsManagement = () => {
   const [songs, setSongs] = useState<ISong[]>([]);
   const [audioPath, setAudioPath] = useState<string>("");
   const [playingTitle, setPlayingTitle] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(1);
 
-  const fetchSongs = async () => {
-    const response = await fetch(`${REST_BASE_URL}/song`, {
-      headers: {
-        Authorization: localStorage.getItem("token") ?? "",
-      },
-    });
+  const fetchSongs = async (pageNumber?: number) => {
+    const response = await fetch(
+      `${REST_BASE_URL}/song?page=${pageNumber ?? currentPage}&pageSize=${SONGS_PAGE_SIZE}`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token") ?? "",
+        },
+      }
+    );
 
     if (response.ok) {
-      const { data } = await response.json();
+      const { data, pageData } = await response.json();
       setSongs(data);
+      setPageCount(pageData.totalPage);
+
+      // Handle kasus delete song ...
+      if (currentPage > pageData.totalPage) {
+        const response = await fetch(
+          `${REST_BASE_URL}/song?page=${pageNumber ?? currentPage - 1}&pageSize=${SONGS_PAGE_SIZE}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token") ?? "",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const { data, pageData } = await response.json();
+          setSongs(data);
+          setPageCount(pageData.totalPage);
+        }
+        setCurrentPage(currentPage - 1);
+      }
     }
   };
 
@@ -61,17 +86,39 @@ const SongsManagement = () => {
         theme: "light",
       });
     }
-  }
+  };
 
   useEffect(() => {
     fetchSongs();
   }, []);
 
+  const nextPage = async () => {
+    if (currentPage < pageCount) {
+      await fetchSongs(currentPage + 1);
+      setCurrentPage(oldPage => oldPage + 1);
+    }
+  }
+
+  const prevPage = async () => {
+    if (currentPage > 0) {
+      await fetchSongs(currentPage - 1);
+      setCurrentPage(oldPage => oldPage - 1);
+    }
+  }
+
   return (
     <>
-      <AudioPlayer audioPath={audioPath} setAudioPath={setAudioPath} title={playingTitle} />
+      <AudioPlayer
+        audioPath={audioPath}
+        setAudioPath={setAudioPath}
+        title={playingTitle}
+      />
       <ToastContainer />
-      <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} fetchSongs={fetchSongs} />
+      <AddSongModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        fetchSongs={fetchSongs}
+      />
       <div className={styles.songsManagementContainer}>
         <header>
           <h1>Songs Management</h1>
@@ -92,7 +139,7 @@ const SongsManagement = () => {
                 {songs.map((song, idx) => {
                   return (
                     <SingleSong
-                      index={idx + 1}
+                      index={(idx + 1) + (currentPage - 1) * (SONGS_PAGE_SIZE)}
                       title={song.title}
                       duration={song.duration}
                       id={song.id}
@@ -116,13 +163,19 @@ const SongsManagement = () => {
         </div>
         {songs.length > 0 && (
           <div className={styles.pagination}>
-            <button>
+            <button disabled={currentPage === 1} onClick={() => {
+              prevPage();
+            }}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256S114.6 512 256 512s256-114.6 256-256zM116.7 244.7l112-112c4.6-4.6 11.5-5.9 17.4-3.5s9.9 8.3 9.9 14.8l0 64 96 0c17.7 0 32 14.3 32 32l0 32c0 17.7-14.3 32-32 32l-96 0 0 64c0 6.5-3.9 12.3-9.9 14.8s-12.9 1.1-17.4-3.5l-112-112c-6.2-6.2-6.2-16.4 0-22.6z" />
               </svg>
             </button>
-            <p>Page 1 out of 1</p>
-            <button>
+            <p>
+              Page {currentPage} out of {pageCount}
+            </p>
+            <button disabled={currentPage === pageCount} onClick={() => {
+              nextPage();
+            }}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path d="M0 256C0 397.4 114.6 512 256 512s256-114.6 256-256S397.4 0 256 0S0 114.6 0 256zm395.3 11.3l-112 112c-4.6 4.6-11.5 5.9-17.4 3.5s-9.9-8.3-9.9-14.8l0-64-96 0c-17.7 0-32-14.3-32-32l0-32c0-17.7 14.3-32 32-32l96 0 0-64c0-6.5 3.9-12.3 9.9-14.8s12.9-1.1 17.4 3.5l112 112c6.2 6.2 6.2 16.4 0 22.6z" />
               </svg>
