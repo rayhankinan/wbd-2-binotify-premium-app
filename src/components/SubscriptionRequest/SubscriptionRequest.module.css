@@ -1,0 +1,96 @@
+.subscriptionRequestContainer {
+    padding-bottom: 11.375rem;
+}
+
+.subscriptionRequestContainer header p {
+    margin-top: 0.5rem;
+}
+
+.subsTable {
+    margin-top: 2rem;
+}
+
+.subsTable table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.subsTable th {
+    border-bottom: 1px solid var(--black);
+}
+
+.subsTable td, .subsTable th {
+    text-align: left;
+    padding: 1rem 1rem;
+    margin: 0;
+}
+
+.subsTable td:nth-child(1) {
+    width: 5%;
+}
+
+.subsTable td:nth-child(2) {
+    width: 40%;
+}
+
+.subsTable td:nth-child(2) input {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.subsTable td:nth-child(3) {
+    width: 20%;
+}
+
+.subsTable td:nth-child(4) {
+    display: flex;
+    gap: 1rem;
+    width: 25%;
+    align-items: center;
+}
+
+.subsTable button, .subsTable button:focus, .subsTable label {
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 1px solid black;
+    font-size: 1rem;
+    transition: all 0.3s linear;
+    cursor: pointer;
+}
+
+.subsTable button:hover, .subsTable label:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+.subsTable .subsRow {
+    transition: all 0.3s linear;
+}
+
+.subsTable .subsRow:hover {
+    background: rgba(0, 0, 0, 10%);
+}
+
+.subsTable input[type="file"] {
+    display: none;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.pagination button {
+    width: 2rem;
+    height: 2rem;
+    transition: all 0.3s linear;
+}
+
+.pagination button:hover {
+    transform: scale(1.2);
+}

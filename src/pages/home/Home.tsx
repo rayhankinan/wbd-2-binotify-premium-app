@@ -3,6 +3,7 @@ import Sidebar from "../../components/Navigation/Sidebar";
 import Navbar from "../../components/Navigation/Navbar";
 import styles from "./Home.module.css";
 import SongsManagement from "../../components/SongsManagement/SongsManagement";
+import SubscriptionRequest from "../../components/SubscriptionRequest/SubscriptionRequest";
 
 import { REST_BASE_URL } from "../../constants/constants";
 
@@ -135,7 +136,7 @@ const Home = () => {
             <div className={styles.mainContent}>
               <Navbar navbarLinks={adminLinks} />
               <main>
-                <SongsManagement />
+                <SubscriptionRequest />
               </main>
             </div>
           </div>
