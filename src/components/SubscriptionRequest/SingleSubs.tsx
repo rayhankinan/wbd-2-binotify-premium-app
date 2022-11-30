@@ -8,10 +8,12 @@ interface ISubs {
   index: number;
   creatorID: number;
   subscriberID: number;
+  creatorName: string;
+  subscriberName: string;
   fetchSubs: () => Promise<void>;
 }
 
-const SingleSubs = ({ index, creatorID, subscriberID, fetchSubs}: ISubs) => {
+const SingleSubs = ({ index, creatorID, subscriberID, creatorName, subscriberName, fetchSubs}: ISubs) => {
 
   const onApprove = async () => {
     const response = await fetch(`${REST_BASE_URL}/subscribe/accept`, {
@@ -97,10 +99,10 @@ const SingleSubs = ({ index, creatorID, subscriberID, fetchSubs}: ISubs) => {
         <p>{index}</p>
       </td>
       <td>
-        {creatorID}
+        {creatorName}
       </td>
       <td>
-        {subscriberID}
+        {subscriberName}
       </td>
       <td>
           <>

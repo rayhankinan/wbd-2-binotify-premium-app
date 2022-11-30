@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 interface ISubs {
   creatorID: number;
   subscriberID: number;
+  creatorName: string;
+  subscriberName: string;
 }
 
 const SubscriptionRequest = () => {
@@ -87,8 +89,8 @@ const SubscriptionRequest = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Creator ID</th>
-                  <th>Subscriber ID</th>
+                  <th>Creator Name</th>
+                  <th>Subscriber Name</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -99,6 +101,8 @@ const SubscriptionRequest = () => {
                       index={(idx + 1) + (currentPage - 1) * (SUBS_PAGE_SIZE)}
                       creatorID={sub.creatorID}
                       subscriberID={sub.subscriberID}
+                      creatorName={sub.creatorName}
+                      subscriberName={sub.subscriberName}
                       key={`${sub.creatorID}-${sub.subscriberID}`}
                       fetchSubs={fetchSubs}
                     />
