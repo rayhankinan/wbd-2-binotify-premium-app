@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AudioPlayer from "./AudioPlayer";
 
 interface ISong {
-  id: number;
+  songID: number;
   title: string;
   duration: number;
 }
@@ -142,8 +142,8 @@ const SongsManagement = () => {
                       index={(idx + 1) + (currentPage - 1) * (SONGS_PAGE_SIZE)}
                       title={song.title}
                       duration={song.duration}
-                      id={song.id}
-                      key={song.id}
+                      songID={song.songID}
+                      key={song.songID}
                       fetchSongs={fetchSongs}
                       playAudio={playAudio}
                     />

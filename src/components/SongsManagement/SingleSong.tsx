@@ -8,14 +8,14 @@ import { toast } from "react-toastify";
 
 interface ISong {
   index: number;
-  id: number;
+  songID: number;
   title: string;
   duration: number;
   fetchSongs: () => Promise<void>;
   playAudio: (id: number, title: string) => Promise<void>;
 }
 
-const SingleSong = ({ index, id, title, duration, fetchSongs, playAudio }: ISong) => {
+const SingleSong = ({ index, songID, title, duration, fetchSongs, playAudio }: ISong) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [songTitle, setSongTitle] = useState<string>(title);
   const [fileName, setFileName] = useState<string>("");
@@ -23,7 +23,7 @@ const SingleSong = ({ index, id, title, duration, fetchSongs, playAudio }: ISong
   const fileRef = useRef<HTMLInputElement>(null);
 
   const onDelete = async () => {
-    const response = await fetch(`${REST_BASE_URL}/song/${id}`, {
+    const response = await fetch(`${REST_BASE_URL}/song/${songID}`, {
       method: "DELETE",
       headers: {
         Authorization: localStorage.getItem("token") ?? "",
@@ -60,7 +60,7 @@ const SingleSong = ({ index, id, title, duration, fetchSongs, playAudio }: ISong
   const onSave = async () => {
     if (fileName === "") {
       // Update title saja
-      const response = await fetch(`${REST_BASE_URL}/song/title/${id}`, {
+      const response = await fetch(`${REST_BASE_URL}/song/title/${songID}`, {
         method: "PUT",
         body: JSON.stringify({
           title: songTitle,
@@ -102,7 +102,7 @@ const SingleSong = ({ index, id, title, duration, fetchSongs, playAudio }: ISong
       data.append("file", fileRef.current!.files![0]);
       data.append("title", songTitle);
 
-      const response = await fetch(`${REST_BASE_URL}/song/${id}`, {
+      const response = await fetch(`${REST_BASE_URL}/song/${songID}`, {
         method: "PUT",
         headers: {
           Authorization: localStorage.getItem("token") ?? "",
@@ -174,7 +174,7 @@ const SingleSong = ({ index, id, title, duration, fetchSongs, playAudio }: ISong
       <td>
         {!isEditing && (
           <>
-            <button onClick={() => playAudio(id, title)}>Play</button>
+            <button onClick={() => playAudio(songID, title)}>Play</button>
             <button onClick={() => setIsEditing(true)}>Edit</button>
             <button onClick={() => onDelete()}>Delete</button>
           </>
