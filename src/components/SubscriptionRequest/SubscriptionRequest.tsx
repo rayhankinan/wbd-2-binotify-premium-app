@@ -81,7 +81,7 @@ const SubscriptionRequest = () => {
       <div className={styles.subscriptionRequestContainer}>
         <header>
           <h1>Subscription Request</h1>
-          <p>Approve or Reject User Subscription Request!</p>
+          <p>Approve or reject user subscription request!</p>
         </header>
         {subs.length > 0 && (
           <div className={styles.subsTable}>
@@ -114,7 +114,7 @@ const SubscriptionRequest = () => {
         )}
         {subs.length === 0 && (
           <div className={styles.subsTable}>
-            <p>No request yet!</p>
+            <p>There are no requests yet!</p>
           </div>
         )}
         {subs.length > 0 && (
