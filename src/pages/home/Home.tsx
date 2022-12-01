@@ -18,6 +18,7 @@ interface ILink {
 
 const Home = () => {
   const [userID, setUserID] = useState<number>(-1);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   
   const singerLinks: ILink[] = [
@@ -105,6 +106,7 @@ const Home = () => {
       const data = await response.json();
       setIsAdmin(data.isAdmin);
       setUserID(data.userID);
+      setIsAuth(true);
     }
   };
 
@@ -113,35 +115,51 @@ const Home = () => {
     checkAuth();
   }, []);
 
-  if (!isAdmin) {
-    // TODO: Pass user ID ke dalam SongsManagement
-    return (
-      <>
-        <div className={styles.mainWrapper}>
-          <Sidebar sidebarLinks={singerLinks} />
-          <div className={styles.mainContent}>
-            <Navbar navbarLinks={singerLinks} />
-            <main>
-              <SongsManagement />
-            </main>
-          </div>
-        </div>
-      </>
-    );
-  } else {
+  if (isAuth) {
+    if (!isAdmin) {
+      // TODO: Pass user ID ke dalam SongsManagement
       return (
         <>
           <div className={styles.mainWrapper}>
-            <Sidebar sidebarLinks={adminLinks} />
+            <Sidebar sidebarLinks={singerLinks} />
             <div className={styles.mainContent}>
-              <Navbar navbarLinks={adminLinks} />
+              <Navbar navbarLinks={singerLinks} />
               <main>
-                <SubscriptionRequest />
+                <SongsManagement />
               </main>
             </div>
           </div>
         </>
       );
+    } else {
+        return (
+          <>
+            <div className={styles.mainWrapper}>
+              <Sidebar sidebarLinks={adminLinks} />
+              <div className={styles.mainContent}>
+                <Navbar navbarLinks={adminLinks} />
+                <main>
+                  <SubscriptionRequest />
+                </main>
+              </div>
+            </div>
+          </>
+        );
+    }
+  } else {
+    return (
+      <>
+        <div className={styles.mainWrapper}>
+          <Sidebar sidebarLinks={adminLinks} />
+          <div className={styles.mainContent}>
+            <Navbar navbarLinks={adminLinks} />
+            <main>
+              <h1>Loading ...</h1>
+            </main>
+          </div>
+        </div>
+      </>
+    );
   }
 };
 
