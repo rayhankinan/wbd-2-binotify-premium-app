@@ -34,10 +34,10 @@ const SubscriptionRequest = () => {
     if (response.ok) {
       const { data, totalPage } = await response.json();
       setSubs(data);
-      setPageCount(totalPage);
+      setPageCount(parseInt(totalPage));
 
       // Handle kasus accept and reject subscription ...
-      if (currentPage > totalPage) {
+      if (currentPage > parseInt(totalPage)) {
         const response = await fetch(
             `${REST_BASE_URL}/subscribe?page=${pageNumber ?? currentPage - 1}&pageSize=${SUBS_PAGE_SIZE}`,
           {
@@ -50,7 +50,7 @@ const SubscriptionRequest = () => {
         if (response.ok) {
             const { data, totalPage } = await response.json();
             setSubs(data);
-            setPageCount(totalPage);
+            setPageCount(parseInt(totalPage));
         }
         setCurrentPage(currentPage - 1);
       }

@@ -37,12 +37,12 @@ const SongsManagement = () => {
     );
 
     if (response.ok) {
-      const { data } = await response.json();
+      const { data, totalPage } = await response.json();
       setSongs(data);
-      setPageCount(data.totalPage);
+      setPageCount(totalPage);
 
       // Handle kasus delete song ...
-      if (currentPage > data.totalPage) {
+      if (currentPage > totalPage) {
         const response = await fetch(
           `${REST_BASE_URL}/song?page=${pageNumber ?? currentPage - 1}&pageSize=${SONGS_PAGE_SIZE}`,
           {
@@ -53,9 +53,9 @@ const SongsManagement = () => {
         );
 
         if (response.ok) {
-          const { data } = await response.json();
+          const { data, totalPage } = await response.json();
           setSongs(data);
-          setPageCount(data.totalPage);
+          setPageCount(totalPage);
         }
         setCurrentPage(currentPage - 1);
       }
