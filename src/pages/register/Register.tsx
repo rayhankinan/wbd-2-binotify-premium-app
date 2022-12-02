@@ -37,7 +37,7 @@ const Register = () => {
 
   useEffect(() => {
     setIsNameValid(name.length > 0);
-  }, [username]);
+  }, [name]);
 
   useEffect(() => {
     setIsUsernameValid(validateUsername(username));
