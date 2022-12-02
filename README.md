@@ -22,6 +22,9 @@ Selain untuk penyanyi, Binotify Premium bisa digunakan oleh administrator untuk 
 
 ## Pembagian tugas
 Halaman Register: 13520065
+
 Halaman Login: 13520065
+
 Halaman CRUD Lagu: 13520101
+
 Halaman Subscription Request: 13520101
